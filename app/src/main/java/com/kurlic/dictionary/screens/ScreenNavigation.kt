@@ -11,5 +11,6 @@ fun AppNavigation() {
     NavHost(navController = navController, startDestination = MainScreenTag) {
         composable(MainScreenTag) { MainScreen(navController) }
         composable(TypeScreenTag) { TypeScreen(navController) }
+        composable(NewWordScreenTag) { NewWordScreen(navController) }
     }
 }
