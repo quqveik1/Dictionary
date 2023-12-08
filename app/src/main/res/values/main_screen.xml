@@ -1,6 +1,10 @@
 <resources>
     <string name="welcome">Welcome!</string>
     <string name="start_training">Start training</string>
+    <string name="input_word">Input word</string>
+    <string name="add_word">Add word</string>
     <string name="input_russian">Input in russian</string>
-    <string name="input_english">Input in english</string>
+    <string name="input_german">Input in german</string>
+
+    <string name="load">Loading...</string>
 </resources>

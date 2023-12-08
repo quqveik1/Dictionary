@@ -31,7 +31,13 @@ fun TypeScreen(navController: NavController) {
                     { navController.navigate(NewWordScreenTag) }
                 }
 
-                else -> {{}}
+                StudyCustomSet -> {
+                    { navController.navigate(WordListScreenTag) }
+                }
+
+                else -> {
+                    {}
+                }
             }
             StyledButton(
                 text = item,

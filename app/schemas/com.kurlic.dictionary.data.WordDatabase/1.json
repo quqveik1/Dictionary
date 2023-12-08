@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "4125066fba13d8efa2d2e93034c83947",
+    "entities": [
+      {
+        "tableName": "WordEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `key` TEXT NOT NULL, `keyLang` TEXT NOT NULL, `wordValue` TEXT NOT NULL, `valueLang` TEXT NOT NULL, `learningProgress` INTEGER NOT NULL, `category` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keyLang",
+            "columnName": "keyLang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordValue",
+            "columnName": "wordValue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valueLang",
+            "columnName": "valueLang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "learningProgress",
+            "columnName": "learningProgress",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4125066fba13d8efa2d2e93034c83947')"
+    ]
+  }
+}

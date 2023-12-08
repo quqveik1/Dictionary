@@ -7,13 +7,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.room.Room
+import com.kurlic.dictionary.data.WordDao
+import com.kurlic.dictionary.data.WordDatabase
 import com.kurlic.dictionary.screens.AppNavigation
 import com.kurlic.dictionary.screens.MainScreen
 import com.kurlic.dictionary.ui.theme.DictionaryTheme
 
 class MainActivity : ComponentActivity() {
+
+    companion object {
+        lateinit var dao: WordDao
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+            WordDatabase::class.java,
+            "name"
+        ).build()
+
+        dao = db.wordDao()
+
         setContent {
             DictionaryTheme {
                 Surface(
