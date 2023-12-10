@@ -7,4 +7,5 @@
     <string name="input_german">Input in german</string>
 
     <string name="load">Loading...</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -15,20 +15,13 @@ import com.kurlic.dictionary.screens.MainScreen
 import com.kurlic.dictionary.ui.theme.DictionaryTheme
 
 class MainActivity : ComponentActivity() {
-
     companion object {
         lateinit var dao: WordDao
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            WordDatabase::class.java,
-            "name"
-        ).build()
-
-        dao = db.wordDao()
+        dao = WordDatabase.getDatabase(applicationContext).wordDao()
 
         setContent {
             DictionaryTheme {

@@ -120,6 +120,8 @@ fun addNewWord(
         val words = MainActivity.dao.getAllWords()
         Toast.makeText(context, words.toString(), Toast.LENGTH_SHORT).show()
         MainActivity.dao.insertWord(word)
+        germanText.value = ""
+        russianText.value = ""
     }
 }
 
