@@ -3,6 +3,7 @@ package com.kurlic.dictionary.elements
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -21,11 +22,12 @@ import com.kurlic.dictionary.ui.theme.MediumGray
 fun StyledButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    buttonColors: ButtonColors? = null
 ) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+        colors = if(buttonColors != null) buttonColors else ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.shape_standard)),
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
     ) {
@@ -35,4 +37,9 @@ fun StyledButton(
             fontSize = dimensionResource(id = R.dimen.text_size_standard).value.sp
         )
     }
+}
+
+@Composable
+fun getButtonColor() : ButtonColors {
+    return ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
 }

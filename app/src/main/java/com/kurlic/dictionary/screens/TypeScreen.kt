@@ -1,5 +1,7 @@
 package com.kurlic.dictionary.screens
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.kurlic.dictionary.elements.StyledButton
+import com.kurlic.dictionary.screens.learnwords.LearnWordsScreenTag
 
 const val TypeScreenTag = "TYPE"
 
@@ -24,30 +27,36 @@ fun TypeScreen(navController: NavController) {
         StudyCustomSet,
         AddWord
     )
-    LazyColumn() {
-        items(itemList) { item ->
-            val onClickFnc = when (item) {
-                AddWord -> {
-                    { navController.navigate(NewWordScreenTag) }
-                }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        LazyColumn {
+            items(itemList) { item ->
+                val onClickFnc = when (item) {
+                    AddWord -> {
+                        { navController.navigate(NewWordScreenTag) }
+                    }
 
-                StudyCustomSet -> {
-                    { navController.navigate(WordListScreenTag) }
-                }
+                    StudyCustomSet -> {
+                        { navController.navigate(WordListScreenTag) }
+                    }
+                    StudyCurrentWords -> {
+                        {navController.navigate(LearnWordsScreenTag)}
+                    }
 
-                else -> {
-                    {}
+                    else -> {
+                        {}
+                    }
                 }
+                StyledButton(
+                    text = item,
+                    onClick = onClickFnc,
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
             }
-            StyledButton(
-                text = item,
-                onClick = onClickFnc,
-                Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-            )
         }
     }
-
-
 }
