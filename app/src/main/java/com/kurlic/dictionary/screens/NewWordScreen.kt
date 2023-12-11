@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.kurlic.dictionary.MainActivity
 import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.LangName
@@ -33,9 +34,8 @@ import kotlinx.coroutines.launch
 const val NewWordScreenTag = "NEWWORD"
 
 @Preview
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewWordScreen(navController: NavController?) {
+fun NewWordScreen(navController: NavController) {
     val russianText = rememberSaveable { mutableStateOf("") }
     val germanText = rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
@@ -96,7 +96,7 @@ fun addNewWord(
     ) {
         Toast.makeText(
             context,
-            "Input fields are incorrect",
+            context.getString(R.string.input_fields_are_incorrect),
             Toast.LENGTH_SHORT
         ).show()
         return

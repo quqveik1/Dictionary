@@ -27,7 +27,7 @@ fun StyledButton(
 ) {
     Button(
         onClick = onClick,
-        colors = if(buttonColors != null) buttonColors else ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+        colors = if(buttonColors != null) buttonColors else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.shape_standard)),
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
     ) {

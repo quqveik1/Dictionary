@@ -54,6 +54,7 @@ import com.kurlic.dictionary.common.AnimationLen
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
 import com.kurlic.dictionary.data.WordListViewModelFactory
+import com.kurlic.dictionary.elements.StyledCard
 import com.kurlic.dictionary.elements.StyledText
 import kotlinx.coroutines.delay
 
@@ -82,15 +83,12 @@ fun WordListScreen(navController: NavController) {
         }
     } else {
         LazyColumn {
-            items(
-                words,
+            items(words,
                 key = { word -> word.id!! }) { word ->
-                DrawWord(
-                    word = word,
+                DrawWord(word = word,
                     wordListViewModel = wordListViewModel,
                     activeCardId = activeCardId,
-                    setActiveCardId = { id -> activeCardId = id }
-                )
+                    setActiveCardId = { id -> activeCardId = id })
             }
         }
     }
@@ -107,7 +105,7 @@ fun DrawWord(
 ) {
     val haptics = LocalHapticFeedback.current
 
-    val isVisible = rememberSaveable{ mutableStateOf(true) }
+    val isVisible = rememberSaveable { mutableStateOf(true) }
 
     val showDelete = activeCardId?.toInt() == word.id
     val showedDelete = rememberSaveable { mutableStateOf(showDelete) }
@@ -126,20 +124,11 @@ fun DrawWord(
         exit = shrinkVertically(animationSpec = tween(durationMillis = AnimationLen)) + fadeOut(animationSpec = tween(durationMillis = AnimationLen)),
         modifier = Modifier.animateContentSize(animationSpec = tween(durationMillis = AnimationLen))
     ) {
-        Card(
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_standard))
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .combinedClickable(
-                    onClick = { },
-                    onLongClick = {
-                        setActiveCardId(if (showDelete) null else word.id!!.toLong())
-                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    }
-                ),
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.shape_standard))
-            ) {
+        StyledCard(modifier = Modifier.combinedClickable(onClick = { },
+            onLongClick = {
+                setActiveCardId(if (showDelete) null else word.id!!.toLong())
+                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+            })) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -165,12 +154,10 @@ fun DrawWord(
                             .fillMaxHeight()
                             .width(1.dp)
                     )
-                    IconButton(
-                        modifier = Modifier.weight(animatedWeight),
+                    IconButton(modifier = Modifier.weight(animatedWeight),
                         onClick = {
                             isVisible.value = false
-                        }
-                    ) {
+                        }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
                             contentDescription = stringResource(id = R.string.delete)

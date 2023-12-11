@@ -7,3 +7,6 @@ val MediumGray = Color(0xFF232323)
 val LightGray = Color(0xFFE0E0E0)
 val OffWhite = Color(0xFFFFFBFE)
 val PureWhite = Color(0xFFFFFFFF)
+
+val CorrectGreen = Color(0xFF348F34)
+val ErrorRed = Color(0xFF8B2525)
