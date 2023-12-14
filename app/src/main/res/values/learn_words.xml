@@ -7,4 +7,6 @@
     <string name="study_with_writing">Study with writing</string>
     <string name="study_with_cards">Study with cards</string>
     <string name="study_by_keys">Study by keys</string>
+    <string name="i_know">I know</string>
+    <string name="i_dont_know">I don\'t know</string>
 </resources>

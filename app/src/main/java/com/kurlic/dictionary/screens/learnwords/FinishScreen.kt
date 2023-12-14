@@ -14,6 +14,7 @@ import com.kurlic.dictionary.R
 import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledText
 import com.kurlic.dictionary.screens.TypeScreenTag
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 
 const val FinalScreenTag = "Cold"
 
@@ -30,7 +31,7 @@ fun FinalScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (trainData != null) {
-            StyledText(text = stringResource(id = R.string.you_have_learned) + " ${trainData!!.learnedWords.size}/${trainData!!.words.size}" + stringResource(id = R.string.words))
+            StyledText(text = stringResource(id = R.string.you_have_learned) + " ${trainData!!.learnedWords.size}/${trainData!!.words.size} " + stringResource(id = R.string.words))
         }
         StyledButton(
             text = stringResource(id = R.string.return_back),

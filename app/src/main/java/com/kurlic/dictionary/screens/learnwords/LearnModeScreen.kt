@@ -18,6 +18,9 @@ import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.WordListViewModel
 import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledCheckBox
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainTypes
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 
 const val LearnModeScreenTag = "MODE"
 
@@ -39,7 +42,7 @@ fun LearnModeScreen(
 
         StyledButton(text = stringResource(id = R.string.study_with_writing),
             onClick = {
-                navController.navigate(LearnWordsWriteScreenTag) {
+                navController.navigate(LearnWordsScreenTag) {
                     val learningWords =
                         wordListViewModel.words.value!!.shuffled().take(trainWordsLen)
                     trainViewModel.setTrainData(
@@ -52,7 +55,18 @@ fun LearnModeScreen(
                 }
             })
         StyledButton(text = stringResource(id = R.string.study_with_cards),
-            onClick = { /*TODO*/ })
+            onClick = { navController.navigate(LearnWordsScreenTag) {
+                val learningWords =
+                    wordListViewModel.words.value!!.shuffled().take(trainWordsLen)
+                trainViewModel.setTrainData(
+                    TrainData(
+                        words = learningWords,
+                        learnByKey = isChecked,
+                        trainTypes = TrainTypes.Cards
+                    )
+                )
+                popUpTo(LearnModeScreenTag) { inclusive = true }
+            } })
 
         Row(
             verticalAlignment = Alignment.CenterVertically,

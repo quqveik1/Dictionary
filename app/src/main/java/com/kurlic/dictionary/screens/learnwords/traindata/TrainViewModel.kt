@@ -1,7 +1,6 @@
-package com.kurlic.dictionary.screens.learnwords
+package com.kurlic.dictionary.screens.learnwords.traindata
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

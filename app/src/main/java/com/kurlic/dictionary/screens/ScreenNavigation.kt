@@ -12,11 +12,11 @@ import com.kurlic.dictionary.screens.learnwords.FinalScreen
 import com.kurlic.dictionary.screens.learnwords.FinalScreenTag
 import com.kurlic.dictionary.screens.learnwords.LearnModeScreen
 import com.kurlic.dictionary.screens.learnwords.LearnModeScreenTag
-import com.kurlic.dictionary.screens.learnwords.LearnWordsWriteScreen
-import com.kurlic.dictionary.screens.learnwords.LearnWordsWriteScreenTag
+import com.kurlic.dictionary.screens.learnwords.LearnWordsScreen
+import com.kurlic.dictionary.screens.learnwords.LearnWordsScreenTag
 import com.kurlic.dictionary.screens.learnwords.TestLearnWordsWriteScreen
 import com.kurlic.dictionary.screens.learnwords.TestLearnWordsWriteScreenTag
-import com.kurlic.dictionary.screens.learnwords.TrainViewModel
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 
 @Composable
 fun AppNavigation() {
@@ -49,10 +49,11 @@ fun AppNavigation() {
                 wordListViewModel
             )
         }
-        composable(LearnWordsWriteScreenTag) {
-            LearnWordsWriteScreen(
+        composable(LearnWordsScreenTag) {
+            LearnWordsScreen(
                 navController,
-                trainViewModel
+                trainViewModel,
+                wordListViewModel
             )
         }
         composable(FinalScreenTag) {
@@ -64,7 +65,8 @@ fun AppNavigation() {
         composable(TestLearnWordsWriteScreenTag) {
             TestLearnWordsWriteScreen(
                 navController,
-                trainViewModel
+                trainViewModel,
+                wordListViewModel
             )
         }
 

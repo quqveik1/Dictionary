@@ -1,51 +1,33 @@
 package com.kurlic.dictionary.screens.learnwords
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.kurlic.dictionary.MainActivity
-import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.LangName
 import com.kurlic.dictionary.data.WordCategory
-import com.kurlic.dictionary.data.WordDao
 import com.kurlic.dictionary.data.WordEntity
-import com.kurlic.dictionary.elements.StyledButton
-import com.kurlic.dictionary.elements.StyledCard
-import com.kurlic.dictionary.elements.StyledText
-import com.kurlic.dictionary.elements.StyledTextField
-import com.kurlic.dictionary.ui.theme.CorrectGreen
-import com.kurlic.dictionary.ui.theme.ErrorRed
-import com.kurlic.dictionary.ui.theme.LightGray
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.kurlic.dictionary.data.WordListViewModel
+import com.kurlic.dictionary.elements.StyledLinearProgressIndicator
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainTypes
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 
 const val TestLearnWordsWriteScreenTag = "TEST"
 
 @Composable
 fun TestLearnWordsWriteScreen(
     navController: NavController,
-    trainViewModel: TrainViewModel
+    trainViewModel: TrainViewModel,
+    wordListViewModel: WordListViewModel
 ) {
     val words = listOf(
         WordEntity(
@@ -85,9 +67,10 @@ fun TestLearnWordsWriteScreen(
         wasCreated = true
     }
 
-    LearnWordsWriteScreen(
+    LearnWordsScreen(
         navController = navController,
-        trainViewModel
+        trainViewModel = trainViewModel,
+        wordListViewModel = wordListViewModel
     )
 }
 
@@ -98,12 +81,13 @@ fun calcProgress(
     return currentIndex.toFloat() / words.size.toFloat();
 }
 
-const val LearnWordsWriteScreenTag = "WRITE"
+const val LearnWordsScreenTag = "WORDS"
 
 @Composable
-fun LearnWordsWriteScreen(
+fun LearnWordsScreen(
     navController: NavController,
-    trainViewModel: TrainViewModel
+    trainViewModel: TrainViewModel,
+    wordListViewModel: WordListViewModel
 ) {
     val trainData by trainViewModel.trainData.observeAsState()
     var currentIndex by rememberSaveable {
@@ -121,16 +105,12 @@ fun LearnWordsWriteScreen(
         )
     }
 
-    val scope = rememberCoroutineScope()
-
     val onAnswerGiven: (isCorrect: Boolean) -> Unit = { isCorrect: Boolean ->
         Unit
         if (currentWord != null && isCorrect) {
-            updateLearningProgress(
+            wordListViewModel.updateWordByProgress(
                 currentWord,
-                currentWord.learningProgress + 1,
-                MainActivity.dao,
-                scope
+                currentWord.learningProgress + 1
             )
             trainData!!.learnedWords.add(currentWord)
         }
@@ -144,25 +124,31 @@ fun LearnWordsWriteScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        LinearProgressIndicator(
-            progress = progress,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.padding_standard)),
-            color = LightGray
-        )
+        StyledLinearProgressIndicator(progress = progress)
+
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             if (currentWord != null) {
-                LearnWordSection(
-                    word = currentWord,
-                    onAnswerGiven = onAnswerGiven,
-                    onNextQuestion = onNextQuestion,
-                    trainData!!.learnByKey
-                )
+                if (trainData!!.trainTypes == TrainTypes.Writing) {
+                    LearnWordWritingSection(
+                        word = currentWord,
+                        onAnswerGiven = onAnswerGiven,
+                        onNextQuestion = onNextQuestion,
+                        trainData!!.learnByKey
+                    )
+                }
+                else {
+                    LearnByCardsSection(
+                        word = currentWord,
+                        onAnswerGiven = onAnswerGiven,
+                        onNextQuestion = onNextQuestion,
+                        trainData!!.learnByKey
+                    )
+
+                }
             } else {
                 navController.navigate(FinalScreenTag) {
                     popUpTo(navController.graph.startDestinationId) {
@@ -171,111 +157,5 @@ fun LearnWordsWriteScreen(
                 }
             }
         }
-    }
-}
-
-fun updateLearningProgress(
-    word: WordEntity,
-    newProgress: Int,
-    dao: WordDao,
-    scope: CoroutineScope
-) {
-    scope.launch {
-        word.let {
-            val updatedWord = it.copy(learningProgress = newProgress)
-            if (updatedWord.id != null) {
-                dao.updateWord(updatedWord)
-            }
-        }
-    }
-}
-
-@Composable
-fun LearnWordSection(
-    word: WordEntity,
-    onAnswerGiven: (isCorrect: Boolean) -> Unit,
-    onNextQuestion: () -> Unit,
-    isLearnByKey: Boolean
-) {
-    val userAnswer = rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val isUserCorrect = rememberSaveable {
-        mutableStateOf<Boolean?>(null)
-    }
-
-    val checkStr = stringResource(id = R.string.check)
-    val nextStr = stringResource(id = R.string.next)
-
-    val checkButtonText = rememberSaveable {
-        mutableStateOf(checkStr)
-    }
-    val checkButtonColor = remember {
-        mutableStateOf<ButtonColors?>(null)
-    }
-
-    val buttonColorGreen = ButtonDefaults.buttonColors(CorrectGreen)
-    val buttonColorRed = ButtonDefaults.buttonColors(ErrorRed)
-
-    LaunchedEffect(isUserCorrect.value) {
-        if (isUserCorrect.value != null) {
-            checkButtonText.value = nextStr
-            checkButtonColor.value = if (isUserCorrect.value!!) buttonColorGreen else buttonColorRed
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        StyledText(
-            text = if (isLearnByKey) word.key else word.wordValue,
-            fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
-        )
-
-        if (isUserCorrect.value != null && !isUserCorrect.value!!) {
-            StyledCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(),
-                backgroundColor = CorrectGreen
-            ) {
-                StyledText(text = if (isLearnByKey) word.wordValue else word.key)
-
-            }
-        }
-
-        StyledTextField(
-            textState = userAnswer,
-            label = stringResource(id = if (isLearnByKey) R.string.input_german else R.string.input_russian),
-            enabled = isUserCorrect.value == null
-        )
-
-        StyledButton(
-            onClick = {
-                if (isUserCorrect.value == null) {
-                    val isCorrect = if (isLearnByKey) {
-                        userAnswer.value == word.wordValue
-                    } else {
-                        userAnswer.value == word.key
-                    }
-
-                    onAnswerGiven(isCorrect)
-
-                    isUserCorrect.value = isCorrect
-                } else {
-                    isUserCorrect.value = null
-                    userAnswer.value = ""
-                    checkButtonText.value = checkStr
-                    checkButtonColor.value = null
-                    onNextQuestion()
-                }
-            },
-            text = checkButtonText.value,
-            buttonColors = checkButtonColor.value
-        )
     }
 }

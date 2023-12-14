@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import com.kurlic.dictionary.data.WordDao
 import com.kurlic.dictionary.data.WordDatabase
 import com.kurlic.dictionary.screens.AppNavigation
-import com.kurlic.dictionary.screens.learnwords.TrainData
-import com.kurlic.dictionary.screens.learnwords.TrainViewModel
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
+import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 import com.kurlic.dictionary.ui.theme.DictionaryTheme
 
 class MainActivity : ComponentActivity() {

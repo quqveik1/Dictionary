@@ -36,4 +36,26 @@ class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
             loadWords()
         }
     }
+
+    fun updateWordByProgress(
+        word: WordEntity,
+        newProgress: Int
+    ) {
+        val updatedWord = word.copy(learningProgress = newProgress)
+        viewModelScope.launch {
+            if (updatedWord.id != null) {
+                wordDao.updateWord(updatedWord)
+            }
+        }
+    }
+
+    fun updateWord(word: WordEntity) {
+        val updatedWord = word.copy()
+        viewModelScope.launch {
+            if (updatedWord.id != null) {
+                wordDao.updateWord(updatedWord)
+            }
+        }
+    }
+
 }
