@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.kurlic.dictionary.elements.StyledButton
-import com.kurlic.dictionary.screens.learnwords.LearnWordsScreenTag
+import com.kurlic.dictionary.screens.learnwords.LearnModeScreenTag
 
 const val TypeScreenTag = "TYPE"
 
@@ -42,7 +42,7 @@ fun TypeScreen(navController: NavController) {
                         { navController.navigate(WordListScreenTag) }
                     }
                     StudyCurrentWords -> {
-                        {navController.navigate(LearnWordsScreenTag)}
+                        {navController.navigate(LearnModeScreenTag)}
                     }
 
                     else -> {

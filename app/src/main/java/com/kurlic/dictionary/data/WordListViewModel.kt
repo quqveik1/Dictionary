@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
-
     private val _words = MutableLiveData<List<WordEntity>>()
     val words: LiveData<List<WordEntity>> = _words
     private val _isLoading = MutableLiveData(true)
@@ -27,6 +26,13 @@ class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
     fun deleteWord(word: WordEntity) {
         viewModelScope.launch {
             wordDao.deleteWord(word.id!!)
+            loadWords()
+        }
+    }
+
+    fun addWord(word: WordEntity) {
+        viewModelScope.launch {
+            wordDao.insertWord(word)
             loadWords()
         }
     }

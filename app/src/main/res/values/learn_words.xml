@@ -2,4 +2,9 @@
     <string name="next">Next</string>
     <string name="check">Check</string>
     <string name="translate">Translate</string>
+    <string name="return_back">Return</string>
+    <string name="you_have_learned">You\'ve successfully learned</string>
+    <string name="study_with_writing">Study with writing</string>
+    <string name="study_with_cards">Study with cards</string>
+    <string name="study_by_keys">Study by keys</string>
 </resources>

@@ -5,41 +5,36 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.kurlic.dictionary.MainActivity
 import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.LangName
 import com.kurlic.dictionary.data.WordCategory
 import com.kurlic.dictionary.data.WordEntity
+import com.kurlic.dictionary.data.WordListViewModel
 import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledTextField
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 const val NewWordScreenTag = "NEWWORD"
 
-@Preview
 @Composable
-fun NewWordScreen(navController: NavController) {
+fun NewWordScreen(
+    navController: NavController,
+    wordListViewModel: WordListViewModel
+) {
     val russianText = rememberSaveable { mutableStateOf("") }
     val germanText = rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
@@ -66,7 +61,7 @@ fun NewWordScreen(navController: NavController) {
                     germanText,
                     russianText,
                     context,
-                    scope
+                    wordListViewModel
                 )
             })
 
@@ -87,7 +82,7 @@ fun addNewWord(
     germanText: MutableState<String>,
     russianText: MutableState<String>,
     context: Context,
-    scope: CoroutineScope
+    wordListViewModel: WordListViewModel
 ) {
     if (!checkCorrectness(
             germanText,
@@ -104,19 +99,16 @@ fun addNewWord(
 
     val word = WordEntity(
         null,
-        russianText.value,
+        String(russianText.value.toCharArray()),
         LangName.Russian,
-        germanText.value,
+        String(germanText.value.toCharArray()),
         LangName.German,
         0,
         WordCategory.Learning
     )
-    scope.launch {
-        val words = MainActivity.dao.getAllWords()
-        Toast.makeText(context, words.toString(), Toast.LENGTH_SHORT).show()
-        MainActivity.dao.insertWord(word)
-        germanText.value = ""
-        russianText.value = ""
-    }
+
+    wordListViewModel.addWord(word)
+    germanText.value = ""
+    russianText.value = ""
 }
 

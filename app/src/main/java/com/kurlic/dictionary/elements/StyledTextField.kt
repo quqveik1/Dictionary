@@ -21,7 +21,8 @@ import com.kurlic.dictionary.R
 fun StyledTextField(
     textState: MutableState<String>,
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     TextField(
         value = textState.value,
@@ -35,6 +36,7 @@ fun StyledTextField(
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent
         ),
-        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+        enabled = enabled
     )
 }

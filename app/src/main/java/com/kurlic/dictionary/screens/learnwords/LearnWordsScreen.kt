@@ -1,21 +1,18 @@
 package com.kurlic.dictionary.screens.learnwords
 
-import android.widget.ProgressBar
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,14 +20,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.google.gson.Gson
 import com.kurlic.dictionary.MainActivity
 import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.LangName
@@ -47,14 +40,17 @@ import com.kurlic.dictionary.ui.theme.LightGray
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-const val LearnWordsScreenTag = "LEARN"
+const val TestLearnWordsWriteScreenTag = "TEST"
 
 @Composable
-fun TestLearnWordsScreen(navController: NavController) {
+fun TestLearnWordsWriteScreen(
+    navController: NavController,
+    trainViewModel: TrainViewModel
+) {
     val words = listOf(
         WordEntity(
             id = 1,
-            key = "дом",
+            key = "Дом",
             keyLang = LangName.Russian,
             wordValue = "Haus",
             valueLang = LangName.German,
@@ -63,7 +59,7 @@ fun TestLearnWordsScreen(navController: NavController) {
         ),
         WordEntity(
             id = 2,
-            key = "кошка",
+            key = "Кошка",
             keyLang = LangName.Russian,
             wordValue = "Katze",
             valueLang = LangName.German,
@@ -72,7 +68,7 @@ fun TestLearnWordsScreen(navController: NavController) {
         ),
         WordEntity(
             id = 3,
-            key = "солнце",
+            key = "Солнце",
             keyLang = LangName.Russian,
             wordValue = "Sonne",
             valueLang = LangName.German,
@@ -80,8 +76,18 @@ fun TestLearnWordsScreen(navController: NavController) {
             category = WordCategory.Common
         )
     )
-    LearnWordsScreen(
-        _trainData = TrainData(words)
+    var wasCreated by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    if (!wasCreated) {
+        trainViewModel.setTrainData(TrainData(words))
+        wasCreated = true
+    }
+
+    LearnWordsWriteScreen(
+        navController = navController,
+        trainViewModel
     )
 }
 
@@ -92,24 +98,25 @@ fun calcProgress(
     return currentIndex.toFloat() / words.size.toFloat();
 }
 
+const val LearnWordsWriteScreenTag = "WRITE"
+
 @Composable
-fun LearnWordsScreen(
-    _trainData: TrainData
+fun LearnWordsWriteScreen(
+    navController: NavController,
+    trainViewModel: TrainViewModel
 ) {
-    val trainData = rememberSaveable {
-        _trainData
-    }
+    val trainData by trainViewModel.trainData.observeAsState()
     var currentIndex by rememberSaveable {
         mutableStateOf(0)
     }
-    val currentWord = trainData.words.getOrNull(currentIndex)
+    val currentWord = trainData!!.words.getOrNull(currentIndex)
 
     val progress = rememberSaveable(
         currentIndex,
-        trainData.words.size
+        trainData!!.words.size
     ) {
         calcProgress(
-            trainData.words,
+            trainData!!.words,
             currentIndex
         )
     }
@@ -125,7 +132,7 @@ fun LearnWordsScreen(
                 MainActivity.dao,
                 scope
             )
-            trainData.learnedWords.add(currentWord)
+            trainData!!.learnedWords.add(currentWord)
         }
     }
     val onNextQuestion: () -> Unit = {
@@ -153,13 +160,15 @@ fun LearnWordsScreen(
                 LearnWordSection(
                     word = currentWord,
                     onAnswerGiven = onAnswerGiven,
-                    onNextQuestion = onNextQuestion
+                    onNextQuestion = onNextQuestion,
+                    trainData!!.learnByKey
                 )
             } else {
-                val navController = rememberNavController()
-                val gson = Gson()
-                val trainDataJson = gson.toJson(trainData)
-                navController.navigate("$FinalScreenTag/$trainDataJson")
+                navController.navigate(FinalScreenTag) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = false
+                    }
+                }
             }
         }
     }
@@ -185,7 +194,8 @@ fun updateLearningProgress(
 fun LearnWordSection(
     word: WordEntity,
     onAnswerGiven: (isCorrect: Boolean) -> Unit,
-    onNextQuestion: () -> Unit
+    onNextQuestion: () -> Unit,
+    isLearnByKey: Boolean
 ) {
     val userAnswer = rememberSaveable {
         mutableStateOf("")
@@ -204,7 +214,7 @@ fun LearnWordSection(
     val checkButtonColor = remember {
         mutableStateOf<ButtonColors?>(null)
     }
-    
+
     val buttonColorGreen = ButtonDefaults.buttonColors(CorrectGreen)
     val buttonColorRed = ButtonDefaults.buttonColors(ErrorRed)
 
@@ -222,7 +232,7 @@ fun LearnWordSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         StyledText(
-            text = word.key,
+            text = if (isLearnByKey) word.key else word.wordValue,
             fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
         )
 
@@ -233,20 +243,25 @@ fun LearnWordSection(
                     .animateContentSize(),
                 backgroundColor = CorrectGreen
             ) {
-                StyledText(text = word.wordValue)
+                StyledText(text = if (isLearnByKey) word.wordValue else word.key)
 
             }
         }
 
         StyledTextField(
             textState = userAnswer,
-            label = stringResource(id = R.string.input_german)
+            label = stringResource(id = if (isLearnByKey) R.string.input_german else R.string.input_russian),
+            enabled = isUserCorrect.value == null
         )
 
         StyledButton(
             onClick = {
                 if (isUserCorrect.value == null) {
-                    val isCorrect = userAnswer.value == word.wordValue
+                    val isCorrect = if (isLearnByKey) {
+                        userAnswer.value == word.wordValue
+                    } else {
+                        userAnswer.value == word.key
+                    }
 
                     onAnswerGiven(isCorrect)
 

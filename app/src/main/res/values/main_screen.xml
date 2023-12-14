@@ -8,6 +8,7 @@
 
     <string name="load">Loading...</string>
     <string name="delete">Delete</string>
+    <string name="words">words</string>
 
     <string name="input_fields_are_incorrect">Input fields are incorrect</string>
 </resources>

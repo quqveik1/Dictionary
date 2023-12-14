@@ -1,44 +1,70 @@
 package com.kurlic.dictionary.screens
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.google.gson.Gson
+import com.kurlic.dictionary.MainActivity
+import com.kurlic.dictionary.data.WordListViewModel
+import com.kurlic.dictionary.data.WordListViewModelFactory
 import com.kurlic.dictionary.screens.learnwords.FinalScreen
 import com.kurlic.dictionary.screens.learnwords.FinalScreenTag
-import com.kurlic.dictionary.screens.learnwords.LearnWordsScreenTag
-import com.kurlic.dictionary.screens.learnwords.TestLearnWordsScreen
-import com.kurlic.dictionary.screens.learnwords.TrainData
+import com.kurlic.dictionary.screens.learnwords.LearnModeScreen
+import com.kurlic.dictionary.screens.learnwords.LearnModeScreenTag
+import com.kurlic.dictionary.screens.learnwords.LearnWordsWriteScreen
+import com.kurlic.dictionary.screens.learnwords.LearnWordsWriteScreenTag
+import com.kurlic.dictionary.screens.learnwords.TestLearnWordsWriteScreen
+import com.kurlic.dictionary.screens.learnwords.TestLearnWordsWriteScreenTag
+import com.kurlic.dictionary.screens.learnwords.TrainViewModel
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val trainViewModel: TrainViewModel = viewModel()
+    val wordListViewModel: WordListViewModel =
+        viewModel(factory = WordListViewModelFactory(MainActivity.dao))
     NavHost(
         navController = navController,
         startDestination = MainScreenTag
     ) {
         composable(MainScreenTag) { MainScreen(navController) }
         composable(TypeScreenTag) { TypeScreen(navController) }
-        composable(NewWordScreenTag) { NewWordScreen(navController) }
-        composable(WordListScreenTag) { WordListScreen(navController) }
-        composable(LearnWordsScreenTag) { TestLearnWordsScreen(navController) }
-        composable(
-            "$FinalScreenTag/{trainDataJson}",
-            arguments = listOf(navArgument("trainDataJson") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val gson = Gson()
-            val trainDataJson = backStackEntry.arguments?.getString("trainDataJson")
-            val trainData = gson.fromJson(
-                trainDataJson,
-                TrainData::class.java
+        composable(NewWordScreenTag) {
+            NewWordScreen(
+                navController,
+                wordListViewModel
             )
-
+        }
+        composable(WordListScreenTag) {
+            WordListScreen(
+                navController,
+                wordListViewModel
+            )
+        }
+        composable(LearnModeScreenTag) {
+            LearnModeScreen(
+                navController,
+                trainViewModel,
+                wordListViewModel
+            )
+        }
+        composable(LearnWordsWriteScreenTag) {
+            LearnWordsWriteScreen(
+                navController,
+                trainViewModel
+            )
+        }
+        composable(FinalScreenTag) {
             FinalScreen(
                 navController = navController,
-                trainData = trainData
+                trainViewModel = trainViewModel
+            )
+        }
+        composable(TestLearnWordsWriteScreenTag) {
+            TestLearnWordsWriteScreen(
+                navController,
+                trainViewModel
             )
         }
 

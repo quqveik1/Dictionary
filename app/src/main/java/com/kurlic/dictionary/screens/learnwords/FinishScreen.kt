@@ -4,29 +4,42 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.kurlic.dictionary.R
 import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledText
 import com.kurlic.dictionary.screens.TypeScreenTag
 
-const val FinalScreenTag = "COLDLEGS"
+const val FinalScreenTag = "Cold"
 
 @Composable
 fun FinalScreen(
     navController: NavController,
-    trainData: TrainData
+    trainViewModel: TrainViewModel
 ) {
+    val trainData by trainViewModel.trainData.observeAsState()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        StyledText(text = "You've successfully learned ${trainData.learnedWords.size}/${trainData.words.size} words")
+        if (trainData != null) {
+            StyledText(text = stringResource(id = R.string.you_have_learned) + " ${trainData!!.learnedWords.size}/${trainData!!.words.size}" + stringResource(id = R.string.words))
+        }
         StyledButton(
-            text = "Come back",
-            onClick = { navController.navigate(TypeScreenTag) })
+            text = stringResource(id = R.string.return_back),
+            onClick = {
+                navController.navigate(TypeScreenTag) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = false
+                    }
+                }
+            })
     }
 }
