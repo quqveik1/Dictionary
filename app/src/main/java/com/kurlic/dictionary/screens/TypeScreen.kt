@@ -9,7 +9,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.kurlic.dictionary.R
 import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.screens.learnwords.LearnModeScreenTag
 
@@ -17,14 +19,12 @@ const val TypeScreenTag = "TYPE"
 
 @Composable
 fun TypeScreen(navController: NavController) {
-    val StudyCurrentWords = "Study current words"
-    val RepeatOldWords = "Repeat old words"
-    val StudyCustomSet = "Study custom set of words"
-    val AddWord = "Add new word"
+    val StudyWords = stringResource(id = R.string.study_words)
+    val ViewListOfWords = stringResource(id = R.string.view_list_words)
+    val AddWord = stringResource(id = R.string.add_new_words)
     val itemList = listOf(
-        StudyCurrentWords,
-        RepeatOldWords,
-        StudyCustomSet,
+        StudyWords,
+        ViewListOfWords,
         AddWord
     )
     Box(
@@ -38,10 +38,10 @@ fun TypeScreen(navController: NavController) {
                         { navController.navigate(NewWordScreenTag) }
                     }
 
-                    StudyCustomSet -> {
+                    ViewListOfWords -> {
                         { navController.navigate(WordListScreenTag) }
                     }
-                    StudyCurrentWords -> {
+                    StudyWords -> {
                         {navController.navigate(LearnModeScreenTag)}
                     }
 

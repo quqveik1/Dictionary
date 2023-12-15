@@ -24,10 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.WordEntity
-import com.kurlic.dictionary.elements.StyledButton
+import com.kurlic.dictionary.elements.StyledButtonIcon
 import com.kurlic.dictionary.elements.StyledText
-
-const val LearnByCardsScreen = "CARDS"
 
 @Composable
 fun LearnByCardsSection(
@@ -98,7 +96,8 @@ fun LearnByCardsSection(
             }
             .padding(dimensionResource(id = R.dimen.padding_standard)),
             horizontalArrangement = Arrangement.Center) {
-            StyledButton(
+            StyledButtonIcon(
+                iconId = R.drawable.yes_icon,
                 text = stringResource(id = R.string.i_know),
                 onClick = {
                     onAnswerGiven(true)
@@ -107,7 +106,8 @@ fun LearnByCardsSection(
                 },
             )
 
-            StyledButton(
+            StyledButtonIcon(
+                iconId = R.drawable.no_icon,
                 text = stringResource(id = R.string.i_dont_know),
                 onClick = {
                     onAnswerGiven(false)

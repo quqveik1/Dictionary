@@ -11,4 +11,9 @@
     <string name="words">words</string>
 
     <string name="input_fields_are_incorrect">Input fields are incorrect</string>
+
+    <string name="study_words">Study words</string>
+    <string name="view_list_words">View list of words</string>
+    <string name="add_new_words">Add new word</string>
+
 </resources>

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import com.kurlic.dictionary.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,11 +23,16 @@ fun StyledTextField(
     textState: MutableState<String>,
     label: String,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    onlyNumbers: Boolean = false
 ) {
     TextField(
         value = textState.value,
-        onValueChange = { textState.value = it },
+        onValueChange = { newText ->
+            if (newText.all { it.isDigit() } || !onlyNumbers) {
+                textState.value = newText
+            }
+        },
         label = { Text(label) },
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.padding_standard))
@@ -36,7 +42,10 @@ fun StyledTextField(
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent
         ),
-        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            keyboardType = if (!onlyNumbers) KeyboardType.Text else KeyboardType.Number
+        ),
         enabled = enabled
     )
 }

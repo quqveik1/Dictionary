@@ -93,9 +93,9 @@ fun LearnWordWritingSection(
             onClick = {
                 if (isUserCorrect.value == null) {
                     val isCorrect = if (isLearnByKey) {
-                        userAnswer.value == word.wordValue
+                        isAnswerSame(userAnswer.value, word.wordValue)
                     } else {
-                        userAnswer.value == word.key
+                        isAnswerSame(word.wordValue, userAnswer.value)
                     }
 
                     onAnswerGiven(isCorrect)
