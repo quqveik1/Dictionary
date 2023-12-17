@@ -1,4 +1,4 @@
-package com.kurlic.dictionary.screens.learnwords
+package com.kurlic.dictionary.screens.learnwords.train
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
@@ -21,12 +21,15 @@ import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledCard
 import com.kurlic.dictionary.elements.StyledText
 import com.kurlic.dictionary.elements.StyledTextField
+import com.kurlic.dictionary.screens.learnwords.isAnswerSame
+import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord
+import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
 import com.kurlic.dictionary.ui.theme.CorrectGreen
 import com.kurlic.dictionary.ui.theme.ErrorRed
 
 
 @Composable
-fun LearnWordWritingSection(
+fun LearnByWritingSection(
     word: WordEntity,
     onAnswerGiven: (isCorrect: Boolean) -> Unit,
     onNextQuestion: () -> Unit,
@@ -67,7 +70,10 @@ fun LearnWordWritingSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         StyledText(
-            text = if (isLearnByKey) word.key else word.wordValue,
+            text = getGivenStringFromWord(
+                word,
+                isLearnByKey
+            ),
             fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
         )
 
@@ -78,7 +84,12 @@ fun LearnWordWritingSection(
                     .animateContentSize(),
                 backgroundColor = CorrectGreen
             ) {
-                StyledText(text = if (isLearnByKey) word.wordValue else word.key)
+                StyledText(
+                    text = getLearnStringFromWord(
+                        word,
+                        isLearnByKey
+                    )
+                )
 
             }
         }
@@ -92,11 +103,13 @@ fun LearnWordWritingSection(
         StyledButton(
             onClick = {
                 if (isUserCorrect.value == null) {
-                    val isCorrect = if (isLearnByKey) {
-                        isAnswerSame(userAnswer.value, word.wordValue)
-                    } else {
-                        isAnswerSame(word.wordValue, userAnswer.value)
-                    }
+                    val isCorrect = isAnswerSame(
+                        userAnswer.value,
+                        getLearnStringFromWord(
+                            word,
+                            isLearnByKey
+                        )
+                    )
 
                     onAnswerGiven(isCorrect)
 

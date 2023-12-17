@@ -1,4 +1,4 @@
-package com.kurlic.dictionary.screens.learnwords
+package com.kurlic.dictionary.screens.learnwords.train
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import com.kurlic.dictionary.data.WordCategory
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
 import com.kurlic.dictionary.elements.StyledLinearProgressIndicator
+import com.kurlic.dictionary.screens.learnwords.FinalScreenTag
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainTypes
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
@@ -133,21 +134,28 @@ fun LearnWordsScreen(
         ) {
             if (currentWord != null) {
                 if (trainData!!.trainTypes == TrainTypes.Writing) {
-                    LearnWordWritingSection(
+                    LearnByWritingSection(
                         word = currentWord,
                         onAnswerGiven = onAnswerGiven,
                         onNextQuestion = onNextQuestion,
-                        trainData!!.learnByKey
+                        isLearnByKey = trainData!!.learnByKey
                     )
                 }
-                else {
+                else if(trainData!!.trainTypes == TrainTypes.Cards) {
                     LearnByCardsSection(
                         word = currentWord,
                         onAnswerGiven = onAnswerGiven,
                         onNextQuestion = onNextQuestion,
-                        trainData!!.learnByKey
+                        isLearnByKey = trainData!!.learnByKey
                     )
-
+                } else {
+                    LearnByAnswerVariantsSection(
+                        word = currentWord,
+                        trainData = trainData!!,
+                        onAnswerGiven = onAnswerGiven,
+                        onNextQuestion = onNextQuestion,
+                        isLearnByKey = trainData!!.learnByKey
+                    )
                 }
             } else {
                 navController.navigate(FinalScreenTag) {

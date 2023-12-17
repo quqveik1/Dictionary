@@ -8,6 +8,7 @@
     <string name="study_with_cards">Study with cards</string>
     <string name="flip_cards">Flip cards</string>
     <string name="writing">Writing</string>
+    <string name="answer_variants">Answer variants</string>
     <string name="word_count">Word count</string>
     <string name="card_train_type">Card train type:</string>
     <string name="input">Input</string>
@@ -15,4 +16,9 @@
     <string name="study">Study</string>
     <string name="i_know">I know</string>
     <string name="i_dont_know">I don\'t know</string>
+
+    <string name="word_set_type">Word set type:</string>
+    <string name="new_type">New</string>
+    <string name="old_type">Old</string>
+    <string name="random_type">Random</string>
 </resources>

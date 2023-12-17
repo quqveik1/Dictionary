@@ -11,3 +11,17 @@ data class TrainData(
     val learnByKey: Boolean = true,
     val trainTypes: TrainTypes = TrainTypes.Writing
 ) : Parcelable {}
+
+fun getLearnStringFromWord(
+    word: WordEntity,
+    learnByKey: Boolean
+): String {
+    return if (learnByKey) word.wordValue else word.key
+}
+
+fun getGivenStringFromWord(
+    word: WordEntity,
+    learnByKey: Boolean
+): String {
+    return if (!learnByKey) word.wordValue else word.key
+}

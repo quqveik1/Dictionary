@@ -1,4 +1,4 @@
-package com.kurlic.dictionary.screens.learnwords
+package com.kurlic.dictionary.screens.learnwords.train
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
@@ -26,6 +26,8 @@ import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.elements.StyledButtonIcon
 import com.kurlic.dictionary.elements.StyledText
+import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord
+import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
 
 @Composable
 fun LearnByCardsSection(
@@ -73,13 +75,13 @@ fun LearnByCardsSection(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     if (rotateYPos <= 90f) {
-                        StyledText(text = if (isLearnByKey) word.key else word.wordValue,
+                        StyledText(text = getLearnStringFromWord(word, isLearnByKey),
                             modifier = Modifier.graphicsLayer {
                                 rotationY = rotateYPos
                                 cameraDistance = cameraDistanceGraphic
                             })
                     } else {
-                        StyledText(text = if (isLearnByKey) word.wordValue else word.key,
+                        StyledText(text = getGivenStringFromWord(word, isLearnByKey),
                             modifier = Modifier.graphicsLayer {
                                 rotationY = rotateYPos
                                 cameraDistance = cameraDistanceGraphic
