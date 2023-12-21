@@ -114,7 +114,7 @@ fun DrawWord(
         modifier = Modifier.animateContentSize(animationSpec = tween(durationMillis = AnimationLen))
     ) {
         StyledCard(
-            modifier = Modifier.combinedClickable(onClick = { },
+            modifier = Modifier.combinedClickable(onClick = {},
                 onLongClick = {
                     setActiveCardId(if (showDelete) null else word.id!!.toLong())
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)

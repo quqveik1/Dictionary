@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next">Weiter</string>
+    <string name="check">Überprüfen</string>
+    <string name="translate">Übersetzen</string>
+    <string name="return_back">Zurückkehren</string>
+    <string name="you_have_learned">Sie haben erfolgreich gelernt</string>
+    <string name="study_with_writing">Lernen durch Schreiben</string>
+    <string name="study_with_cards">Lernen mit Karten</string>
+    <string name="flip_cards">Karten umdrehen</string>
+    <string name="writing">Schreiben</string>
+    <string name="answer_variants">Antwortvarianten</string>
+    <string name="word_count">Wortanzahl</string>
+    <string name="card_train_type">Kartentrainingstyp:</string>
+    <string name="input">Eingabe</string>
+    <string name="study_by_keys">Lernen nach Schlüsseln</string>
+    <string name="study">Studieren</string>
+    <string name="i_know">Ich weiß</string>
+    <string name="i_dont_know">Ich weiß nicht</string>
+
+    <string name="word_set_type">Wortset-Typ:</string>
+    <string name="new_type">Neu</string>
+    <string name="old_type">Alt</string>
+    <string name="random_type">Zufällig</string>
+</resources>

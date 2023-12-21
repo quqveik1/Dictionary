@@ -3,7 +3,6 @@ package com.kurlic.dictionary.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -41,8 +40,9 @@ fun TypeScreen(navController: NavController) {
                     ViewListOfWords -> {
                         { navController.navigate(WordListScreenTag) }
                     }
+
                     StudyWords -> {
-                        {navController.navigate(LearnModeScreenTag)}
+                        { navController.navigate(LearnModeScreenTag) }
                     }
 
                     else -> {
@@ -52,9 +52,7 @@ fun TypeScreen(navController: NavController) {
                 StyledButton(
                     text = item,
                     onClick = onClickFnc,
-                    Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally)
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }

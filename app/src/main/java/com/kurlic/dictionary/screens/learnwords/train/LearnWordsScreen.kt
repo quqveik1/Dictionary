@@ -140,8 +140,7 @@ fun LearnWordsScreen(
                         onNextQuestion = onNextQuestion,
                         isLearnByKey = trainData!!.learnByKey
                     )
-                }
-                else if(trainData!!.trainTypes == TrainTypes.Cards) {
+                } else if (trainData!!.trainTypes == TrainTypes.Cards) {
                     LearnByCardsSection(
                         word = currentWord,
                         onAnswerGiven = onAnswerGiven,

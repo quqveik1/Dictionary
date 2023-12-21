@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="start_training">Начать тренировку</string>
+    <string name="input_word">Введите слово</string>
+    <string name="add_word">Добавить слово</string>
+    <string name="input_russian">Введите на русском</string>
+    <string name="input_german">Введите на немецком</string>
+
+    <string name="load">Загрузка...</string>
+    <string name="delete">Удалить</string>
+    <string name="words">слова</string>
+
+    <string name="input_fields_are_incorrect">Некорректный ввод в полях</string>
+
+    <string name="study_words">Изучить слова</string>
+    <string name="view_list_words">Просмотреть список слов</string>
+    <string name="add_new_words">Добавить новое слово</string>
+</resources>

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -41,7 +42,7 @@ fun LearnModeScreen(
     wordListViewModel: WordListViewModel
 ) {
     var trainWordsLen by rememberSaveable {
-        mutableStateOf(5)
+        mutableIntStateOf(10)
     }
     val trainWordsLenInput = rememberSaveable {
         mutableStateOf("$trainWordsLen")

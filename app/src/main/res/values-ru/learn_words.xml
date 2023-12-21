@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next">Далее</string>
+    <string name="check">Проверить</string>
+    <string name="translate">Перевести</string>
+    <string name="return_back">Вернуться</string>
+    <string name="you_have_learned">Вы успешно выучили</string>
+    <string name="study_with_writing">Изучение с записью</string>
+    <string name="study_with_cards">Изучение с карточками</string>
+    <string name="flip_cards">Перевернуть карточки</string>
+    <string name="writing">Письмо</string>
+    <string name="answer_variants">Варианты ответов</string>
+    <string name="word_count">Количество слов</string>
+    <string name="card_train_type">Тип тренировки карточек:</string>
+    <string name="input">Ввод</string>
+    <string name="study_by_keys">Изучение по ключам</string>
+    <string name="study">Изучение</string>
+    <string name="i_know">Я знаю</string>
+    <string name="i_dont_know">Я не знаю</string>
+
+    <string name="word_set_type">Тип набора слов:</string>
+    <string name="new_type">Новые</string>
+    <string name="old_type">Старые</string>
+    <string name="random_type">Случайные</string>
+</resources>

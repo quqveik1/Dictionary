@@ -6,16 +6,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.sp
 import com.kurlic.dictionary.R
+import com.kurlic.dictionary.common.AfterAnswerGivenWaitingLen
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledText
@@ -23,6 +28,7 @@ import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
 import com.kurlic.dictionary.ui.theme.CorrectGreen
 import com.kurlic.dictionary.ui.theme.ErrorRed
+import kotlinx.coroutines.delay
 
 @Composable
 fun LearnByAnswerVariantsSection(
@@ -32,76 +38,97 @@ fun LearnByAnswerVariantsSection(
     onNextQuestion: () -> Unit,
     isLearnByKey: Boolean
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            StyledText(
-                text = if (isLearnByKey) word.key else word.wordValue,
-                fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
-            )
-        }
-
-        val answerSuggestList = rememberSaveable() {
-            mutableStateOf(
-                generateAnswerList(
-                    trainData,
-                    word
+    key(word) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                StyledText(
+                    text = if (isLearnByKey) word.key else word.wordValue,
+                    fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
                 )
-            )
-        }
+            }
 
-        val buttonColorsList = rememberSaveable {
-            mutableStateOf(List(4) { null as Color? })
-        }
+            val generationAns = rememberSaveable() {
+                mutableStateOf(
+                    generateAnswerList(
+                        trainData,
+                        word
+                    )
+                )
+            }
 
-        val buttons = answerSuggestList.value.chunked(2)
+            val answerSuggestList = rememberSaveable() {
+                mutableStateOf(generationAns.value.first)
+            }
 
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.padding_standard))
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                buttons.forEachIndexed { rowIndex, pair ->
-                    Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                    ) {
-                        pair.forEachIndexed { columnIndex, answer ->
-                            val buttonIndex = rowIndex * 2 + columnIndex
-                            val color = buttonColorsList.value[buttonIndex]
-                            val buttonColors =
-                                if (color != null) ButtonDefaults.buttonColors(containerColor = color) else null
-                            StyledButton(
-                                text = answer,
-                                onClick = {
-                                    val isCorrect = answer == getLearnStringFromWord(
-                                        word,
-                                        isLearnByKey
-                                    )
-                                    onAnswerGiven(isCorrect)
-                                    if (isCorrect) {
-                                        buttonColorsList.value = buttonColorsList.value.mapIndexed { index, _ ->
-                                            if (index == buttonIndex) CorrectGreen else null
-                                        }
+            val correctAnswerIndex = rememberSaveable() {
+                mutableStateOf(generationAns.value.second)
+            }
+
+            val buttons = answerSuggestList.value.chunked(2)
+
+            var answerVariant by rememberSaveable {
+                mutableStateOf<Int?>(null)
+            }
+
+            LaunchedEffect(answerVariant) {
+                answerVariant?.let {
+                    delay(AfterAnswerGivenWaitingLen)
+                    onNextQuestion()
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+                    .padding(dimensionResource(id = R.dimen.padding_standard))
+            ) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    buttons.forEachIndexed { rowIndex, pair ->
+                        Row(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxSize()
+                        ) {
+                            pair.forEachIndexed { columnIndex, answer ->
+                                val buttonIndex = rowIndex * 2 + columnIndex
+                                var buttonColors: ButtonColors? = null
+                                if (answerVariant != null && answerVariant == buttonIndex) {
+                                    if (buttonIndex == correctAnswerIndex.value) {
+                                        buttonColors =
+                                            ButtonDefaults.buttonColors(containerColor = CorrectGreen)
                                     } else {
-                                        buttonColorsList.value = buttonColorsList.value.mapIndexed { index, _ ->
-                                            if (index == buttonIndex) ErrorRed else null
-                                        }
+                                        buttonColors =
+                                            ButtonDefaults.buttonColors(containerColor = ErrorRed)
                                     }
-                                },
-                                buttonColors = buttonColors,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxSize()
-                            )
+                                }
+                                if (answerVariant != null && buttonIndex == correctAnswerIndex.value) {
+                                    buttonColors =
+                                        ButtonDefaults.buttonColors(containerColor = CorrectGreen)
+                                }
+                                StyledButton(
+                                    text = answer,
+                                    onClick = {
+                                        if (answerVariant != null) return@StyledButton
+                                        val isCorrect = answer == getLearnStringFromWord(
+                                            word,
+                                            isLearnByKey
+                                        )
+                                        onAnswerGiven(isCorrect)
+                                        answerVariant = buttonIndex
+                                    },
+                                    buttonColors = buttonColors,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxSize()
+                                )
+                            }
                         }
                     }
                 }
@@ -113,16 +140,14 @@ fun LearnByAnswerVariantsSection(
 fun generateAnswerList(
     trainData: TrainData,
     word: WordEntity
-): List<String> {
-    val answer = listOf(
-        getLearnStringFromWord(
-            word,
-            trainData.learnByKey
-        )
+): Pair<List<String>, Int> {
+    val correctAnswer = getLearnStringFromWord(
+        word,
+        trainData.learnByKey
     )
+    val answer = listOf(correctAnswer)
 
     val randomAnswers = trainData.words.filter { it != word }.shuffled().take(3)
-
     val stringRandomAnswers = randomAnswers.map {
         getLearnStringFromWord(
             it,
@@ -130,6 +155,12 @@ fun generateAnswerList(
         )
     }
 
-    return (answer + stringRandomAnswers).shuffled()
+    val mixedAnswers = (answer + stringRandomAnswers).shuffled()
+    val correctAnswerIndex = mixedAnswers.indexOf(correctAnswer)
+
+    return Pair(
+        mixedAnswers,
+        correctAnswerIndex
+    )
 }
 
