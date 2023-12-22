@@ -55,8 +55,8 @@ fun WordListScreen(
     navController: NavController,
     wordListViewModel: WordListViewModel
 ) {
-    val words by wordListViewModel.words.observeAsState(listOf())
     val isLoading by wordListViewModel.isLoading.observeAsState(true)
+    val words by wordListViewModel.words.observeAsState(listOf())
     var activeCardId by rememberSaveable { mutableStateOf<Long?>(null) }
 
     if (isLoading) {
@@ -75,7 +75,8 @@ fun WordListScreen(
         LazyColumn {
             items(words,
                 key = { word -> word.id!! }) { word ->
-                DrawWord(word = word,
+                DrawWord(
+                    word = word,
                     wordListViewModel = wordListViewModel,
                     activeCardId = activeCardId,
                     setActiveCardId = { id -> activeCardId = id })

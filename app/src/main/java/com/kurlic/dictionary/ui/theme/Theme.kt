@@ -25,11 +25,11 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = OffWhite,
-    secondary = LightGray,
+    primary = LightGray,
+    secondary = MidColor,
     tertiary = MediumGray,
-    background = OffWhite,
-    surface = PureWhite,
+    background = LightGray,
+    surface = MidColor,
     onPrimary = DarkGray,
     onSecondary = DarkGray,
     onTertiary = DarkGray,
@@ -43,10 +43,7 @@ fun DictionaryTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = DarkColorScheme
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -55,7 +52,7 @@ fun DictionaryTheme(
             WindowCompat.getInsetsController(
                 window,
                 view
-            ).isAppearanceLightStatusBars = !darkTheme
+            ).isAppearanceLightStatusBars = false
         }
     }
 

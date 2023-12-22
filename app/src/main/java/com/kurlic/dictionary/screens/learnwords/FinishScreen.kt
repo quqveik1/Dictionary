@@ -48,7 +48,7 @@ fun FinalScreen(
         )
 
         StyledText(
-            text = stringResource(id = R.string.you_have_learned) + "${data!!.learnedWords.size}/${data!!.words.size}" + stringResource(id = R.string.words),
+            text = stringResource(id = R.string.you_have_learned) + " ${data!!.learnedWords.size}/${data!!.words.size} " + stringResource(id = R.string.words),
             modifier = Modifier.padding(8.dp)
         )
 

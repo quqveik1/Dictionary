@@ -29,6 +29,7 @@ import com.kurlic.dictionary.elements.StyledText
 import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord
 import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
 
+
 @Composable
 fun LearnByCardsSection(
     word: WordEntity,
