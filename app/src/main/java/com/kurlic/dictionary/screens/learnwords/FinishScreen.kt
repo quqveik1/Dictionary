@@ -18,10 +18,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.kurlic.dictionary.R
-import com.kurlic.dictionary.elements.StyledButton
-import com.kurlic.dictionary.elements.StyledCard
-import com.kurlic.dictionary.elements.StyledLinearProgressIndicator
-import com.kurlic.dictionary.elements.StyledText
+import com.kurlic.dictionary.elements.styled.StyledButton
+import com.kurlic.dictionary.elements.styled.StyledCard
+import com.kurlic.dictionary.elements.styled.StyledLinearProgressIndicator
+import com.kurlic.dictionary.elements.styled.StyledText
 import com.kurlic.dictionary.screens.TypeScreenTag
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord

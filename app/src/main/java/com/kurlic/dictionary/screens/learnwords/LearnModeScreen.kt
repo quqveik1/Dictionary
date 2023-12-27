@@ -25,12 +25,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.kurlic.dictionary.R
+import com.kurlic.dictionary.data.LangName
 import com.kurlic.dictionary.data.WordListViewModel
-import com.kurlic.dictionary.elements.StyledButton
-import com.kurlic.dictionary.elements.StyledCheckBox
-import com.kurlic.dictionary.elements.StyledDivider
-import com.kurlic.dictionary.elements.StyledText
-import com.kurlic.dictionary.elements.StyledTextField
+import com.kurlic.dictionary.elements.common.LanguageSpinner
+import com.kurlic.dictionary.elements.styled.StyledButton
+import com.kurlic.dictionary.elements.styled.StyledCheckBox
+import com.kurlic.dictionary.elements.styled.StyledDivider
+import com.kurlic.dictionary.elements.styled.StyledText
+import com.kurlic.dictionary.elements.styled.StyledTextField
 import com.kurlic.dictionary.screens.learnwords.train.LearnWordsScreenTag
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainTypes
@@ -67,6 +69,22 @@ fun LearnModeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        val keyLangName = rememberSaveable() {
+            mutableStateOf(LangName.Russian)
+        }
+        val valueLangName = rememberSaveable() {
+            mutableStateOf(LangName.English)
+        }
+
+        LanguageSpinner(
+            name = R.string.key_language,
+            langName = keyLangName
+        )
+        LanguageSpinner(
+            name = R.string.value_language,
+            langName = valueLangName
+        )
+
         val cardTrainType = rememberSaveable { mutableStateOf(TrainTypes.Cards) }
         val cardTypeOptions = mapOf(
             stringResource(id = R.string.flip_cards) to TrainTypes.Cards,
@@ -116,6 +134,8 @@ fun LearnModeScreen(
                     cardTrainType.value,
                     trainWordsLen,
                     wordSetType.value,
+                    keyLangName.value,
+                    valueLangName.value,
                     context
                 )
             })
@@ -124,30 +144,6 @@ fun LearnModeScreen(
 
 enum class WordSetType {
     New, Old, Random
-}
-
-@Composable
-fun CardTrainTypeSection(
-    selectedOption: MutableState<TrainTypes>
-) {
-    val options = mapOf(
-        R.string.flip_cards to TrainTypes.Cards,
-        R.string.writing to TrainTypes.Writing
-    )
-
-    Column {
-        StyledText(text = stringResource(id = R.string.card_train_type))
-        options.forEach { options ->
-            Row {
-                RadioButton(
-                    selected = options.value == selectedOption.value,
-                    onClick = { selectedOption.value = options.value },
-                    colors = RadioButtonDefaults.colors(selectedColor = colorResource(id = R.color.light_gray))
-                )
-                StyledText(text = stringResource(id = options.key))
-            }
-        }
-    }
 }
 
 @Composable
@@ -206,6 +202,8 @@ private fun goToLearnScreen(
     trainTypes: TrainTypes,
     trainWordsLen: Int,
     wordSetType: WordSetType,
+    keyLangName: LangName,
+    valueLangName: LangName,
     context: Context
 ) {
     if (trainWordsLen == 0) {
@@ -221,8 +219,20 @@ private fun goToLearnScreen(
         learnByKey,
         trainTypes,
         trainWordsLen,
-        wordSetType
+        wordSetType,
+        keyLangName,
+        valueLangName
     )
+
+    if (trainData == null) {
+        Toast.makeText(
+            context,
+            context.getString(R.string.input_fields_are_incorrect),
+            Toast.LENGTH_SHORT
+        ).show()
+        return
+    }
+
     navController.navigate(LearnWordsScreenTag) {
         trainViewModel.setTrainData(
             trainData
@@ -235,15 +245,22 @@ private fun buildWordsSet(
     learnByKey: Boolean,
     trainTypes: TrainTypes,
     trainWordsLen: Int,
-    wordSetType: WordSetType
-): TrainData {
+    wordSetType: WordSetType,
+    keyLangName: LangName,
+    valueLangName: LangName
+): TrainData? {
+    val allWords = wordListViewModel.words.value
+        ?.filter { it.keyLang == keyLangName && it.valueLang == valueLangName }
+        ?: return null
+    if (allWords.size < trainWordsLen) return null
+
     val learningWords = when (wordSetType) {
-        WordSetType.Random -> wordListViewModel.words.value!!.shuffled().take(trainWordsLen)
-        WordSetType.New -> wordListViewModel.words.value!!.sortedBy { it.learningProgress }
+        WordSetType.Random -> allWords.shuffled().take(trainWordsLen)
+        WordSetType.New -> allWords.sortedBy { it.learningProgress }
             .take(trainWordsLen)
 
         WordSetType.Old -> {
-            val sortedWords = wordListViewModel.words.value!!.sortedBy { it.learningProgress }
+            val sortedWords = allWords.sortedBy { it.learningProgress }
             val median = sortedWords[sortedWords.size / 2].learningProgress
 
             sortedWords.filter { it.learningProgress > median }.shuffled().take(trainWordsLen)

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.kurlic.dictionary.R
-import com.kurlic.dictionary.elements.StyledButton
+import com.kurlic.dictionary.elements.styled.StyledButton
 import com.kurlic.dictionary.screens.learnwords.LearnModeScreenTag
 
 const val TypeScreenTag = "TYPE"

@@ -1,5 +1,6 @@
-package com.kurlic.dictionary.elements
+package com.kurlic.dictionary.elements.styled
 
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -11,10 +12,10 @@ import com.kurlic.dictionary.R
 @Composable
 fun StyledSpinner(
     items: List<String>,
-    onItemSelected: (Int) -> Unit
+    onItemSelected: (Int) -> Unit,
+    defaultPosition: Int = 0
 ) {
-    val context = LocalContext.current
-    StyledCard() {
+    StyledCard {
         AndroidView(factory = { ctx ->
             val spinner = Spinner(ctx)
 
@@ -27,13 +28,14 @@ fun StyledSpinner(
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
             spinner.adapter = adapter
-            spinner.solidColor
             spinner.setPopupBackgroundResource(R.drawable.shape_dropdown)
+
+            spinner.setSelection(defaultPosition)
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
-                    view: android.view.View?,
+                    view: View?,
                     position: Int,
                     id: Long
                 ) {

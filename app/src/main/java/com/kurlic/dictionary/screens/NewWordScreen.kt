@@ -24,10 +24,11 @@ import com.kurlic.dictionary.data.LangName
 import com.kurlic.dictionary.data.WordCategory
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
-import com.kurlic.dictionary.elements.StyledButton
-import com.kurlic.dictionary.elements.StyledSpinner
-import com.kurlic.dictionary.elements.StyledText
-import com.kurlic.dictionary.elements.StyledTextField
+import com.kurlic.dictionary.elements.common.LanguageSpinner
+import com.kurlic.dictionary.elements.styled.StyledButton
+import com.kurlic.dictionary.elements.styled.StyledSpinner
+import com.kurlic.dictionary.elements.styled.StyledText
+import com.kurlic.dictionary.elements.styled.StyledTextField
 
 const val NewWordScreenTag = "NEWWORD"
 
@@ -40,23 +41,7 @@ fun NewWordScreen(
     val germanText = rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
     val keyLang = rememberSaveable { mutableStateOf(LangName.Russian) }
-    val valueLang = rememberSaveable { mutableStateOf(LangName.Russian) }
-
-    val onLangListSelected: (Int) -> LangName = { index ->
-        when (index) {
-            0 -> {
-                LangName.Russian
-            }
-
-            1 -> {
-                LangName.English
-            }
-
-            else -> {
-                LangName.German
-            }
-        }
-    }
+    val valueLang = rememberSaveable { mutableStateOf(LangName.English) }
 
     Column(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
@@ -67,34 +52,17 @@ fun NewWordScreen(
             text = stringResource(id = R.string.input_word),
             fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
         )
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            StyledText(text = stringResource(id = R.string.key_language) + ": ")
-            StyledSpinner(items = listOf(
-                stringResource(id = R.string.russian),
-                stringResource(id = R.string.english),
-                stringResource(id = R.string.german)
-            ),
-                onItemSelected = { num ->
-                    keyLang.value = onLangListSelected(num)
-                })
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            StyledText(text = stringResource(id = R.string.value_language) + ": ")
-            StyledSpinner(items = listOf(
-                stringResource(id = R.string.russian),
-                stringResource(id = R.string.english),
-                stringResource(id = R.string.german)
-            ),
-                onItemSelected = { num ->
-                    valueLang.value = onLangListSelected(num)
-                })
-        }
+
+        LanguageSpinner(
+            name = R.string.key_language,
+            langName = keyLang
+        )
+
+        LanguageSpinner(
+            name = R.string.value_language,
+            langName = valueLang
+        )
+
         StyledTextField(
             textState = russianText,
             label = stringResource(id = R.string.input_key),

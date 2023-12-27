@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.kurlic.dictionary.R
-import com.kurlic.dictionary.elements.StyledButton
+import com.kurlic.dictionary.elements.styled.StyledButton
 
 const val MainScreenTag = "MAIN"
 

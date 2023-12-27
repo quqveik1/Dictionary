@@ -19,10 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.WordEntity
-import com.kurlic.dictionary.elements.StyledButton
-import com.kurlic.dictionary.elements.StyledCard
-import com.kurlic.dictionary.elements.StyledText
-import com.kurlic.dictionary.elements.StyledTextField
+import com.kurlic.dictionary.elements.styled.StyledButton
+import com.kurlic.dictionary.elements.styled.StyledCard
+import com.kurlic.dictionary.elements.styled.StyledText
+import com.kurlic.dictionary.elements.styled.StyledTextField
 import com.kurlic.dictionary.screens.learnwords.isAnswerSame
 import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord
 import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord

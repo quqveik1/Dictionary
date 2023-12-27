@@ -1,4 +1,4 @@
-package com.kurlic.dictionary.elements
+package com.kurlic.dictionary.elements.styled
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
