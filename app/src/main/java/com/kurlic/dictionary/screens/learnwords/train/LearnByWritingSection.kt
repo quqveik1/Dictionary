@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -25,8 +26,6 @@ import com.kurlic.dictionary.elements.StyledTextField
 import com.kurlic.dictionary.screens.learnwords.isAnswerSame
 import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord
 import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
-import com.kurlic.dictionary.ui.theme.CorrectGreen
-import com.kurlic.dictionary.ui.theme.ErrorRed
 
 
 @Composable
@@ -55,8 +54,10 @@ fun LearnByWritingSection(
             mutableStateOf<ButtonColors?>(null)
         }
 
-        val buttonColorGreen = ButtonDefaults.buttonColors(CorrectGreen)
-        val buttonColorRed = ButtonDefaults.buttonColors(ErrorRed)
+        val buttonColorGreen = ButtonDefaults.buttonColors(
+            colorResource(id = R.color.correct_green)
+        )
+        val buttonColorRed = ButtonDefaults.buttonColors(colorResource(id = R.color.error_red))
 
         LaunchedEffect(isUserCorrect.value) {
             if (isUserCorrect.value != null) {
@@ -85,7 +86,7 @@ fun LearnByWritingSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateContentSize(),
-                    backgroundColor = CorrectGreen
+                    backgroundColor = colorResource(id = R.color.correct_green)
                 ) {
                     StyledText(
                         text = getLearnStringFromWord(
@@ -99,8 +100,9 @@ fun LearnByWritingSection(
 
             StyledTextField(
                 textState = userAnswer,
-                label = stringResource(id = if (isLearnByKey) R.string.input_german else R.string.input_russian),
-                enabled = isUserCorrect.value == null
+                label = stringResource(id = if (isLearnByKey) R.string.input_key else R.string.input_value),
+                enabled = isUserCorrect.value == null,
+                modifier = Modifier.fillMaxWidth()
             )
 
             StyledButton(

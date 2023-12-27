@@ -4,8 +4,6 @@
     <string name="start_training">Training beginnen</string>
     <string name="input_word">Wort eingeben</string>
     <string name="add_word">Wort hinzufügen</string>
-    <string name="input_russian">Auf Russisch eingeben</string>
-    <string name="input_german">Auf Deutsch eingeben</string>
 
     <string name="load">Laden...</string>
     <string name="delete">Löschen</string>

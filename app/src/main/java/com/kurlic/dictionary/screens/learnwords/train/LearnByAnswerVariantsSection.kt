@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.sp
 import com.kurlic.dictionary.R
@@ -28,8 +29,6 @@ import com.kurlic.dictionary.elements.StyledButton
 import com.kurlic.dictionary.elements.StyledText
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
-import com.kurlic.dictionary.ui.theme.CorrectGreen
-import com.kurlic.dictionary.ui.theme.ErrorRed
 import kotlinx.coroutines.delay
 
 
@@ -139,15 +138,15 @@ fun ScreenContent(
                         if (answerVariant != null && answerVariant == buttonIndex) {
                             if (buttonIndex == correctAnswerIndex.value) {
                                 buttonColors =
-                                    ButtonDefaults.buttonColors(containerColor = CorrectGreen)
+                                    ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.correct_green))
                             } else {
                                 buttonColors =
-                                    ButtonDefaults.buttonColors(containerColor = ErrorRed)
+                                    ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.error_red))
                             }
                         }
                         if (answerVariant != null && buttonIndex == correctAnswerIndex.value) {
                             buttonColors =
-                                ButtonDefaults.buttonColors(containerColor = CorrectGreen)
+                                ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.correct_green))
                         }
                         StyledButton(
                             text = answer,

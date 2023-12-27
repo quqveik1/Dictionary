@@ -4,6 +4,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,8 @@ import com.kurlic.dictionary.data.WordCategory
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
 import com.kurlic.dictionary.elements.StyledButton
+import com.kurlic.dictionary.elements.StyledSpinner
+import com.kurlic.dictionary.elements.StyledText
 import com.kurlic.dictionary.elements.StyledTextField
 
 const val NewWordScreenTag = "NEWWORD"
@@ -35,6 +39,24 @@ fun NewWordScreen(
     val russianText = rememberSaveable { mutableStateOf("") }
     val germanText = rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
+    val keyLang = rememberSaveable { mutableStateOf(LangName.Russian) }
+    val valueLang = rememberSaveable { mutableStateOf(LangName.Russian) }
+
+    val onLangListSelected: (Int) -> LangName = { index ->
+        when (index) {
+            0 -> {
+                LangName.Russian
+            }
+
+            1 -> {
+                LangName.English
+            }
+
+            else -> {
+                LangName.German
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
@@ -45,14 +67,44 @@ fun NewWordScreen(
             text = stringResource(id = R.string.input_word),
             fontSize = dimensionResource(id = R.dimen.text_size_big).value.sp
         )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            StyledText(text = stringResource(id = R.string.key_language) + ": ")
+            StyledSpinner(items = listOf(
+                stringResource(id = R.string.russian),
+                stringResource(id = R.string.english),
+                stringResource(id = R.string.german)
+            ),
+                onItemSelected = { num ->
+                    keyLang.value = onLangListSelected(num)
+                })
+        }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            StyledText(text = stringResource(id = R.string.value_language) + ": ")
+            StyledSpinner(items = listOf(
+                stringResource(id = R.string.russian),
+                stringResource(id = R.string.english),
+                stringResource(id = R.string.german)
+            ),
+                onItemSelected = { num ->
+                    valueLang.value = onLangListSelected(num)
+                })
+        }
         StyledTextField(
             textState = russianText,
-            label = stringResource(id = R.string.input_russian),
+            label = stringResource(id = R.string.input_key),
+            modifier = Modifier.fillMaxWidth()
         )
 
         StyledTextField(
             textState = germanText,
-            label = stringResource(id = R.string.input_german),
+            label = stringResource(id = R.string.input_value),
+            modifier = Modifier.fillMaxWidth()
         )
 
         StyledButton(text = stringResource(id = R.string.add_word),
@@ -60,6 +112,8 @@ fun NewWordScreen(
                 addNewWord(
                     germanText,
                     russianText,
+                    keyLang.value,
+                    valueLang.value,
                     context,
                     wordListViewModel
                 )
@@ -69,24 +123,23 @@ fun NewWordScreen(
 }
 
 fun checkCorrectness(
-    germanText: MutableState<String>,
-    russianText: MutableState<String>
+    germanText: String,
+    russianText: String
 ): Boolean {
-    if (!germanText.value.isEmpty() && !russianText.value.isEmpty()) {
-        return true
-    }
-    return false
+    return !germanText.isEmpty() && !russianText.isEmpty()
 }
 
 fun addNewWord(
     germanText: MutableState<String>,
     russianText: MutableState<String>,
+    keyLangName: LangName,
+    valueLangName: LangName,
     context: Context,
     wordListViewModel: WordListViewModel
 ) {
     if (!checkCorrectness(
-            germanText,
-            russianText
+            germanText.value,
+            russianText.value
         )
     ) {
         Toast.makeText(
@@ -100,9 +153,9 @@ fun addNewWord(
     val word = WordEntity(
         null,
         String(russianText.value.toCharArray()),
-        LangName.Russian,
+        keyLangName,
         String(germanText.value.toCharArray()),
-        LangName.German,
+        valueLangName,
         0,
         WordCategory.Learning
     )
@@ -111,4 +164,3 @@ fun addNewWord(
     germanText.value = ""
     russianText.value = ""
 }
-

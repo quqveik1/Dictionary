@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.kurlic.dictionary.R
@@ -34,7 +35,6 @@ import com.kurlic.dictionary.screens.learnwords.train.LearnWordsScreenTag
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainTypes
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
-import com.kurlic.dictionary.ui.theme.LightGray
 
 const val LearnModeScreenTag = "MODE"
 
@@ -142,7 +142,7 @@ fun CardTrainTypeSection(
                 RadioButton(
                     selected = options.value == selectedOption.value,
                     onClick = { selectedOption.value = options.value },
-                    colors = RadioButtonDefaults.colors(selectedColor = LightGray)
+                    colors = RadioButtonDefaults.colors(selectedColor = colorResource(id = R.color.light_gray))
                 )
                 StyledText(text = stringResource(id = options.key))
             }
@@ -163,7 +163,7 @@ fun <T> RadioGroupSection(
                 RadioButton(
                     selected = value == selectedOption.value,
                     onClick = { selectedOption.value = value },
-                    colors = RadioButtonDefaults.colors(selectedColor = LightGray)
+                    colors = RadioButtonDefaults.colors(selectedColor = colorResource(id = R.color.light_gray))
                 )
                 StyledText(text = label)
             }

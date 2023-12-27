@@ -9,33 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.colorResource
 import androidx.core.view.WindowCompat
+import com.kurlic.dictionary.R
 
-private val DarkColorScheme = darkColorScheme(
-    primary = DarkGray,
-    secondary = MediumGray,
-    tertiary = LightGray,
-    background = DarkGray,
-    surface = MediumGray,
-    onPrimary = PureWhite,
-    onSecondary = PureWhite,
-    onTertiary = PureWhite,
-    onBackground = DarkGray,
-    onSurface = PureWhite,
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = LightGray,
-    secondary = MidColor,
-    tertiary = MediumGray,
-    background = LightGray,
-    surface = MidColor,
-    onPrimary = DarkGray,
-    onSecondary = DarkGray,
-    onTertiary = DarkGray,
-    onBackground = DarkGray,
-    onSurface = DarkGray
-)
 
 @Composable
 fun DictionaryTheme(
@@ -43,7 +20,20 @@ fun DictionaryTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = DarkColorScheme
+
+    val colorScheme = darkColorScheme(
+        primary = colorResource(id = R.color.dark_gray),
+        secondary = colorResource(id = R.color.medium_gray),
+        tertiary = colorResource(id = R.color.light_gray),
+        background = colorResource(id = R.color.dark_gray),
+        surface = colorResource(id = R.color.medium_gray),
+        onPrimary = colorResource(id = R.color.pure_white),
+        onSecondary = colorResource(id = R.color.pure_white),
+        onTertiary = colorResource(id = R.color.pure_white),
+        onBackground = colorResource(id = R.color.dark_gray),
+        onSurface = colorResource(id = R.color.pure_white),
+    )
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

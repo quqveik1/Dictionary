@@ -4,8 +4,6 @@
     <string name="start_training">Start training</string>
     <string name="input_word">Input word</string>
     <string name="add_word">Add word</string>
-    <string name="input_russian">Input in russian</string>
-    <string name="input_german">Input in german</string>
 
     <string name="load">Loading...</string>
     <string name="delete">Delete</string>
@@ -16,5 +14,4 @@
     <string name="study_words">Study words</string>
     <string name="view_list_words">View list of words</string>
     <string name="add_new_words">Add new word</string>
-
 </resources>

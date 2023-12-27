@@ -22,4 +22,13 @@
     <string name="new_type">Neu</string>
     <string name="old_type">Alt</string>
     <string name="random_type">Zufällig</string>
+
+    <string name="russian">Russisch</string>
+    <string name="english">Englisch</string>
+    <string name="german">Deutsch</string>
+    <string name="key_language">Schlüsselsprache</string>
+    <string name="value_language">Wertesprache</string>
+
+    <string name="input_key">Input key</string>
+    <string name="input_value">Input value</string>
 </resources>

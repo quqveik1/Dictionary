@@ -35,8 +35,7 @@ fun StyledTextField(
         },
         label = { Text(label) },
         modifier = modifier
-            .padding(dimensionResource(id = R.dimen.padding_standard))
-            .fillMaxWidth(),
+            .padding(dimensionResource(id = R.dimen.padding_standard)),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.shape_standard)),
         colors = TextFieldDefaults.textFieldColors(
             unfocusedIndicatorColor = Color.Transparent,
