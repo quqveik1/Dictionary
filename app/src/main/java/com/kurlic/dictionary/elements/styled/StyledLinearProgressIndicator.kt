@@ -3,6 +3,7 @@ package com.kurlic.dictionary.elements.styled
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +18,7 @@ fun StyledLinearProgressIndicator(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(dimensionResource(id = R.dimen.padding_standard)),
-    color: Color = colorResource(id = R.color.light_gray)
+    color: Color = MaterialTheme.colorScheme.tertiary
 ) {
     LinearProgressIndicator(
         progress = progress,

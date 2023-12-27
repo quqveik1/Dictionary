@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.kurlic.dictionary.R
 
+
 @Composable
 fun StyledDivider() {
     Divider(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard)))

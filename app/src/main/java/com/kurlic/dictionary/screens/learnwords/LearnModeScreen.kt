@@ -80,10 +80,15 @@ fun LearnModeScreen(
             name = R.string.key_language,
             langName = keyLangName
         )
+
+        StyledDivider()
+
         LanguageSpinner(
             name = R.string.value_language,
             langName = valueLangName
         )
+
+        StyledDivider()
 
         val cardTrainType = rememberSaveable { mutableStateOf(TrainTypes.Cards) }
         val cardTypeOptions = mapOf(

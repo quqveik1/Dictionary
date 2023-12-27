@@ -3,6 +3,8 @@ package com.kurlic.dictionary.elements.styled
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -20,8 +22,8 @@ fun StyledCheckBox(
         onCheckedChange = onCheckedChange,
         modifier = modifier,
         colors = CheckboxDefaults.colors(
-            checkedColor = colorResource(id = R.color.light_gray),
-            checkmarkColor = colorResource(id = R.color.medium_gray)
+            checkedColor = MaterialTheme.colorScheme.tertiary,
+            checkmarkColor = MaterialTheme.colorScheme.secondary
             )
     )
 }
