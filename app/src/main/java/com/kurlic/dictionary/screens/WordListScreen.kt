@@ -7,12 +7,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -35,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,8 +49,10 @@ import com.kurlic.dictionary.R
 import com.kurlic.dictionary.common.AnimationLen
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
-import com.kurlic.dictionary.elements.StyledCard
-import com.kurlic.dictionary.elements.StyledText
+import com.kurlic.dictionary.data.getLangDrawableId
+import com.kurlic.dictionary.data.getLangStringId
+import com.kurlic.dictionary.elements.styled.StyledCard
+import com.kurlic.dictionary.elements.styled.StyledText
 import kotlinx.coroutines.delay
 
 const val WordListScreenTag = "WORDLIST"
@@ -72,7 +79,7 @@ fun WordListScreen(
             )
         }
     } else {
-        LazyColumn {
+        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
             items(words,
                 key = { word -> word.id!! }) { word ->
                 DrawWord(
@@ -123,17 +130,40 @@ fun DrawWord(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
+                Image(
+                    painter = painterResource(id = getLangDrawableId(word.keyLang)),
+                    contentDescription = stringResource(id = getLangStringId(word.keyLang)),
+                    modifier = Modifier
+                        .size(dimensionResource(id = R.dimen.text_size_standard))
+                        .padding(
+                            start = dimensionResource(id = R.dimen.padding_small),
+                            end = dimensionResource(id = R.dimen.padding_small)
+                        )
+                        .weight(0.5f)
+                )
                 StyledText(
                     text = word.key,
                     modifier = Modifier.weight(1f)
                 )
                 Divider(
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(1.dp)
+                )
+                Image(
+                    painter = painterResource(id = getLangDrawableId(word.valueLang)),
+                    contentDescription = stringResource(id = getLangStringId(word.valueLang)),
+                    modifier = Modifier
+                        .size(dimensionResource(id = R.dimen.text_size_standard))
+                        .padding(
+                            start = dimensionResource(id = R.dimen.padding_small),
+                            end = dimensionResource(id = R.dimen.padding_small)
+                        )
+                        .weight(0.5f)
                 )
                 StyledText(
                     text = word.wordValue,
@@ -141,7 +171,7 @@ fun DrawWord(
                 )
                 if (animatedWeight > 0) {
                     Divider(
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.tertiary,
                         modifier = Modifier
                             .fillMaxHeight()
                             .width(1.dp)

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dark_gray">#121212</color>
-    <color name="medium_gray">#232323</color>
-    <color name="light_gray">#E0E0E0</color>
+    <color name="dark_gray">#FF121212</color>
+    <color name="medium_gray">#FF232323</color>
+    <color name="mid_color">#FF9B9B9B</color>
+    <color name="light_gray">#FFE0E0E0</color>
     <color name="off_white">#FFFFFBFE</color>
-    <color name="pure_white">#FFFFFF</color>
-    <color name="correct_green">#348F34</color>
-    <color name="error_red">#8B2525</color>
+    <color name="pure_white">#FFFFFFFF</color>
+    <color name="correct_green">#FF348F34</color>
+    <color name="error_red">#FF8B2525</color>
 </resources>

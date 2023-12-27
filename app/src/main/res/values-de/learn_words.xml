@@ -4,7 +4,7 @@
     <string name="check">Überprüfen</string>
     <string name="translate">Übersetzen</string>
     <string name="return_back">Zurückkehren</string>
-    <string name="you_have_learned">Sie haben erfolgreich gelernt</string>
+    <string name="you_have_learned">Sie lernten erfolgreich</string>
     <string name="study_with_writing">Lernen durch Schreiben</string>
     <string name="study_with_cards">Lernen mit Karten</string>
     <string name="flip_cards">Karten umdrehen</string>
@@ -22,4 +22,13 @@
     <string name="new_type">Neu</string>
     <string name="old_type">Alt</string>
     <string name="random_type">Zufällig</string>
+
+    <string name="russian">Russisch</string>
+    <string name="english">Englisch</string>
+    <string name="german">Deutsch</string>
+    <string name="key_language">Schlüsselsprache</string>
+    <string name="value_language">Wertesprache</string>
+
+    <string name="input_key">Input key</string>
+    <string name="input_value">Input value</string>
 </resources>

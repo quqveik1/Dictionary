@@ -22,4 +22,13 @@
     <string name="new_type">Новые</string>
     <string name="old_type">Старые</string>
     <string name="random_type">Случайные</string>
+
+    <string name="russian">Русский</string>
+    <string name="english">Англиский</string>
+    <string name="german">Немецкий</string>
+    <string name="key_language">Язык ключа</string>
+    <string name="value_language">Язык значения</string>
+
+    <string name="input_key">Введите ключ</string>
+    <string name="input_value">Введите значение</string>
 </resources>

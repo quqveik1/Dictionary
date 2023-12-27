@@ -16,7 +16,7 @@ import com.kurlic.dictionary.data.LangName
 import com.kurlic.dictionary.data.WordCategory
 import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
-import com.kurlic.dictionary.elements.StyledLinearProgressIndicator
+import com.kurlic.dictionary.elements.styled.StyledLinearProgressIndicator
 import com.kurlic.dictionary.screens.learnwords.FinalScreenTag
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainTypes

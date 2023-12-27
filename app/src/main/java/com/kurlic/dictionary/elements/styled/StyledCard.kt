@@ -1,4 +1,4 @@
-package com.kurlic.dictionary.elements
+package com.kurlic.dictionary.elements.styled
 
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +24,6 @@ fun StyledCard(
     Card(
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.padding_standard))
-            .fillMaxWidth()
             .height(IntrinsicSize.Min),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.shape_standard)),
         colors = CardDefaults.cardColors(backgroundColor)

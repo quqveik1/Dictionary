@@ -1,6 +1,5 @@
-package com.kurlic.dictionary.elements
+package com.kurlic.dictionary.elements.styled
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,8 +34,7 @@ fun StyledTextField(
         },
         label = { Text(label) },
         modifier = modifier
-            .padding(dimensionResource(id = R.dimen.padding_standard))
-            .fillMaxWidth(),
+            .padding(dimensionResource(id = R.dimen.padding_standard)),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.shape_standard)),
         colors = TextFieldDefaults.textFieldColors(
             unfocusedIndicatorColor = Color.Transparent,

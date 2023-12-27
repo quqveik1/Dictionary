@@ -24,8 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.kurlic.dictionary.R
 import com.kurlic.dictionary.data.WordEntity
-import com.kurlic.dictionary.elements.StyledButtonIcon
-import com.kurlic.dictionary.elements.StyledText
+import com.kurlic.dictionary.elements.styled.StyledButtonIcon
+import com.kurlic.dictionary.elements.styled.StyledText
 import com.kurlic.dictionary.screens.learnwords.traindata.getGivenStringFromWord
 import com.kurlic.dictionary.screens.learnwords.traindata.getLearnStringFromWord
 
