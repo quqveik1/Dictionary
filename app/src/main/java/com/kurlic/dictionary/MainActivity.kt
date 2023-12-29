@@ -1,5 +1,7 @@
 package com.kurlic.dictionary
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +16,7 @@ import com.kurlic.dictionary.screens.AppNavigation
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainData
 import com.kurlic.dictionary.screens.learnwords.traindata.TrainViewModel
 import com.kurlic.dictionary.ui.theme.DictionaryTheme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     companion object {
@@ -36,5 +39,20 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(updateBaseContextLocale(newBase))
+    }
+
+    private fun updateBaseContextLocale(context: Context): Context {
+        val locale = Locale("en")
+        Locale.setDefault(locale)
+
+        val resources = context.resources
+        val configuration = Configuration(resources.configuration)
+        configuration.setLocale(locale)
+
+        return context.createConfigurationContext(configuration)
     }
 }
