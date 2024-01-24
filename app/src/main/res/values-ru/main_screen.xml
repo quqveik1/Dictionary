@@ -10,6 +10,7 @@
     <string name="words">слова</string>
 
     <string name="input_fields_are_incorrect">Некорректный ввод в полях</string>
+    <string name="dont_enough_words_for_training">У вас недостаточно слов, чтобы начать тренировку</string>
 
     <string name="study_words">Изучить слова</string>
     <string name="view_list_words">Просмотреть список слов</string>

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
@@ -14,9 +15,14 @@ class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
 
     init {
         loadWords()
+        //CRINGE
+        viewModelScope.launch {
+            delay(1000)
+            loadWords()
+        }
     }
 
-    private fun loadWords() {
+    fun loadWords() {
         viewModelScope.launch {
             _words.value = wordDao.getAllWords()
             _isLoading.value = false
@@ -45,6 +51,7 @@ class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
         viewModelScope.launch {
             if (updatedWord.id != null) {
                 wordDao.updateWord(updatedWord)
+                loadWords()
             }
         }
     }
@@ -54,8 +61,8 @@ class WordListViewModel(private val wordDao: WordDao) : ViewModel() {
         viewModelScope.launch {
             if (updatedWord.id != null) {
                 wordDao.updateWord(updatedWord)
+                loadWords()
             }
         }
     }
-
 }

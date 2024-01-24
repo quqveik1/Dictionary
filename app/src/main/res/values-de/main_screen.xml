@@ -10,6 +10,7 @@
     <string name="words">Wörter</string>
 
     <string name="input_fields_are_incorrect">Eingabefelder sind falsch</string>
+    <string name="dont_enough_words_for_training">Sie haben nicht genung Wörter, um das Trainung zu erstellen</string>
 
     <string name="study_words">Wörter lernen</string>
     <string name="view_list_words">Wortliste anzeigen</string>

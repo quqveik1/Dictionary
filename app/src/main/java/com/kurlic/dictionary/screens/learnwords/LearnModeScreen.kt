@@ -219,29 +219,33 @@ private fun goToLearnScreen(
         ).show()
         return
     }
-    val trainData = buildWordsSet(
-        wordListViewModel,
-        learnByKey,
-        trainTypes,
-        trainWordsLen,
-        wordSetType,
-        keyLangName,
-        valueLangName
-    )
-
-    if (trainData == null) {
+    try {
+        val trainData = buildWordsSet(
+            wordListViewModel,
+            learnByKey,
+            trainTypes,
+            trainWordsLen,
+            wordSetType,
+            keyLangName,
+            valueLangName
+        )
+        navController.navigate(LearnWordsScreenTag) {
+            trainViewModel.setTrainData(
+                trainData
+            )
+        }
+    } catch (e: ArrayIndexOutOfBoundsException) {
+        Toast.makeText(
+            context,
+            context.getString(R.string.dont_enough_words_for_training),
+            Toast.LENGTH_SHORT
+        ).show()
+    } catch (e: NullPointerException) {
         Toast.makeText(
             context,
             context.getString(R.string.input_fields_are_incorrect),
             Toast.LENGTH_SHORT
         ).show()
-        return
-    }
-
-    navController.navigate(LearnWordsScreenTag) {
-        trainViewModel.setTrainData(
-            trainData
-        )
     }
 }
 
@@ -253,11 +257,11 @@ private fun buildWordsSet(
     wordSetType: WordSetType,
     keyLangName: LangName,
     valueLangName: LangName
-): TrainData? {
+): TrainData {
     val allWords = wordListViewModel.words.value
         ?.filter { it.keyLang == keyLangName && it.valueLang == valueLangName }
-        ?: return null
-    if (allWords.size < trainWordsLen) return null
+        ?: throw NullPointerException()
+    if (allWords.size < trainWordsLen) throw ArrayIndexOutOfBoundsException()
 
     val learningWords = when (wordSetType) {
         WordSetType.Random -> allWords.shuffled().take(trainWordsLen)

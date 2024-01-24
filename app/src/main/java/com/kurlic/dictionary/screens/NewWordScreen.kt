@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -26,8 +25,6 @@ import com.kurlic.dictionary.data.WordEntity
 import com.kurlic.dictionary.data.WordListViewModel
 import com.kurlic.dictionary.elements.common.LanguageSpinner
 import com.kurlic.dictionary.elements.styled.StyledButton
-import com.kurlic.dictionary.elements.styled.StyledSpinner
-import com.kurlic.dictionary.elements.styled.StyledText
 import com.kurlic.dictionary.elements.styled.StyledTextField
 
 const val NewWordScreenTag = "NEWWORD"
