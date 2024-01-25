@@ -79,3 +79,4 @@ data class TrainData(
 -----
 # Установка 📲
 - Скачайте с Github. [🔗](https://github.com/quqveik1/Dictionary/releases/latest)
+- Скачайте с RuStore [🔗](https://apps.rustore.ru/app/com.kurlic.dictionary)
